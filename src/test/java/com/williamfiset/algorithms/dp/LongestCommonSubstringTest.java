@@ -7,8 +7,13 @@ import com.google.common.primitives.Ints;
 import com.williamfiset.algorithms.utils.TestUtils;
 import java.util.*;
 import org.junit.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+
 
 public class LongestCommonSubstringTest {
+
+  boolean[] branches = new boolean[12];
 
   /**
 	 * Tests lcs on longest common substring between "1AL42XZF" and "CD8A4PQXMF",
@@ -18,13 +23,18 @@ public class LongestCommonSubstringTest {
 	 */
   @Test
   public void lcsTest1() {
+    branches[0] = true;
+    System.out.println(branches[0]);
     char[] firstString = "1AL42XZF".toCharArray();
     char[] secondString = "CD8A4PQXMF".toCharArray();
 
     String lcs = LongestCommonSubstring.lcs(firstString, secondString);
 
     assertThat(lcs).isEqualTo("A4XF");
+    printBranches(branches);
   }
+
+  
 
   /**
 	 * Tests lcs on one string being null, which should return null
@@ -33,12 +43,15 @@ public class LongestCommonSubstringTest {
 	 */
   @Test
   public void lcsTest2() {
+    System.out.println(branches[0]);
+
     char[] firstString = null;
     char[] secondString = "CD8A4PQXMF".toCharArray();
 
     String lcs = LongestCommonSubstring.lcs(firstString, secondString);
 
     assertThat(lcs).isEqualTo(null);
+    printBranches(branches);
   }
 
   /**
@@ -54,6 +67,7 @@ public class LongestCommonSubstringTest {
     String lcs = LongestCommonSubstring.lcs(firstString, secondString);
 
     assertThat(lcs).isEqualTo(null);
+    printBranches(branches);
   }
 
   /**
@@ -70,5 +84,16 @@ public class LongestCommonSubstringTest {
     String lcs = LongestCommonSubstring.lcs(firstString, secondString);
 
     assertThat(lcs).isEqualTo("AKJBKJA21KFA");
+    printBranches(branches);
+  }
+  
+  public void printBranches(boolean[] branches) {
+    for (int i = 0; i < branches.length; i++) {
+      if (branches[i]) {
+        System.out.printf("Branch %d was taken\n", i);
+      } else {
+        System.out.printf("Branch %d was not taken\n", i);
+      }
+    } 
   }
 }
