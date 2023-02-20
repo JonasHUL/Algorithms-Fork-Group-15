@@ -23,12 +23,10 @@ public class LongestCommonSubstringTest {
 	 */
   @Test
   public void lcsTest1() {
-    branches[0] = true;
-    System.out.println(branches[0]);
     char[] firstString = "1AL42XZF".toCharArray();
     char[] secondString = "CD8A4PQXMF".toCharArray();
 
-    String lcs = LongestCommonSubstring.lcs(firstString, secondString);
+    String lcs = LongestCommonSubstring.lcs(firstString, secondString, branches);
 
     assertThat(lcs).isEqualTo("A4XF");
     printBranches(branches);
@@ -43,12 +41,11 @@ public class LongestCommonSubstringTest {
 	 */
   @Test
   public void lcsTest2() {
-    System.out.println(branches[0]);
 
     char[] firstString = null;
     char[] secondString = "CD8A4PQXMF".toCharArray();
 
-    String lcs = LongestCommonSubstring.lcs(firstString, secondString);
+    String lcs = LongestCommonSubstring.lcs(firstString, secondString, branches);
 
     assertThat(lcs).isEqualTo(null);
     printBranches(branches);
@@ -64,7 +61,7 @@ public class LongestCommonSubstringTest {
     char[] firstString = "".toCharArray();
     char[] secondString = "CD8A4PQXMF".toCharArray();
 
-    String lcs = LongestCommonSubstring.lcs(firstString, secondString);
+    String lcs = LongestCommonSubstring.lcs(firstString, secondString, branches);
 
     assertThat(lcs).isEqualTo(null);
     printBranches(branches);
@@ -81,7 +78,7 @@ public class LongestCommonSubstringTest {
     char[] firstString = "AKJBKJA21KFA".toCharArray();
     char[] secondString = "AKJBKJA21KFA".toCharArray();
 
-    String lcs = LongestCommonSubstring.lcs(firstString, secondString);
+    String lcs = LongestCommonSubstring.lcs(firstString, secondString, branches);
 
     assertThat(lcs).isEqualTo("AKJBKJA21KFA");
     printBranches(branches);
