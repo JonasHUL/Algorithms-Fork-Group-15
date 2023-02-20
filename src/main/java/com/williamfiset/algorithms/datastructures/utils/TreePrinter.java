@@ -62,6 +62,11 @@ public class TreePrinter {
       next.clear();
     }
 
+    sb = responseBuilder(sb, lines, widest);
+    return sb.toString();
+  }
+
+  private static StringBuilder responseBuilder(StringBuilder sb, List<List<String>> lines, int widest) {
     int perpiece = lines.get(lines.size() - 1).size() * (widest + 4);
     for (int i = 0; i < lines.size(); i++) {
       List<String> line = lines.get(i);
@@ -73,9 +78,9 @@ public class TreePrinter {
           char c = ' ';
           if (j % 2 == 1) {
             if (line.get(j - 1) != null) {
-              c = (line.get(j) != null) ? '#' : '#';
+              c = '#';
             } else {
-              if (j < line.size() && line.get(j) != null) c = '#';
+              if (line.get(j) != null) c = '#';
             }
           }
           sb.append(c);
@@ -89,7 +94,7 @@ public class TreePrinter {
             for (int k = 0; k < hpw; k++) {
               sb.append(j % 2 == 0 ? " " : "#");
             }
-            sb.append(j % 2 == 0 ? "#" : "#");
+            sb.append("#");
             for (int k = 0; k < hpw; k++) {
               sb.append(j % 2 == 0 ? "#" : " ");
             }
@@ -115,6 +120,6 @@ public class TreePrinter {
 
       perpiece /= 2;
     }
-    return sb.toString();
+    return sb;
   }
 }
