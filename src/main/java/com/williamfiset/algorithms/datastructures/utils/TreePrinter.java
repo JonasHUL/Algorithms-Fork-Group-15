@@ -20,7 +20,7 @@ public class TreePrinter {
   }
 
   // Print a binary tree.
-  public static String getTreeDisplay(PrintableNode root) {
+  public static String getTreeDisplay(PrintableNode root, boolean[] branches) {
 
     StringBuilder sb = new StringBuilder();
     List<List<String>> lines = new ArrayList<List<String>>();
@@ -30,29 +30,46 @@ public class TreePrinter {
     level.add(root);
     int nn = 1;
     int widest = 0;
+    branches[0] = true;
 
     while (nn != 0) {
+      branches[1] = true;
       nn = 0;
       List<String> line = new ArrayList<String>();
       for (PrintableNode n : level) {
+        branches[2] = true;
         if (n == null) {
+          branches[3] = true;
           line.add(null);
           next.add(null);
           next.add(null);
         } else {
+          branches[4] = true;
           String aa = n.getText();
           line.add(aa);
-          if (aa.length() > widest) widest = aa.length();
+          if (aa.length() > widest) {
+            branches[5] = true;
+            widest = aa.length();
+          }
 
           next.add(n.getLeft());
           next.add(n.getRight());
 
-          if (n.getLeft() != null) nn++;
-          if (n.getRight() != null) nn++;
+          if (n.getLeft() != null) {
+            branches[6] = true;
+            nn++;
+          }
+          if (n.getRight() != null) {
+            branches[7] = true;
+            nn++;
+          }
         }
       }
 
-      if (widest % 2 == 1) widest++;
+      if (widest % 2 == 1) {
+        branches[8] = true;
+        widest++;
+      }
 
       lines.add(line);
 
