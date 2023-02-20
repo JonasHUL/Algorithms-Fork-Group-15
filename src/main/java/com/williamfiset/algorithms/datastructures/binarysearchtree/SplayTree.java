@@ -6,6 +6,7 @@ package com.williamfiset.algorithms.datastructures.binarysearchtree;
 
 import com.williamfiset.algorithms.datastructures.utils.TreePrinter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -78,8 +79,9 @@ public class SplayTree<T extends Comparable<T>> {
 
     @Override
     public String toString() {
-
-      return TreePrinter.getTreeDisplay(this);
+      boolean[] branches = new boolean[9];
+      Arrays.fill(branches, false);
+      return TreePrinter.getTreeDisplay(this, branches);
     }
   }
 

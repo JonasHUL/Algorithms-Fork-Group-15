@@ -2,10 +2,13 @@ package com.williamfiset.algorithms.datastructures.utils;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static com.google.common.truth.Truth.assertThat;
 import static com.williamfiset.algorithms.datastructures.utils.TreePrinter.getTreeDisplay;
 
 public class TreePrinterTest {
+    boolean[] branches = new boolean[9];
     TreePrinter.PrintableNode nodeSecondLevelLeft = new TreePrinter.PrintableNode() {
         @Override
         public TreePrinter.PrintableNode getLeft() {
@@ -72,21 +75,39 @@ public class TreePrinterTest {
     };
     @Test(expected = OutOfMemoryError.class)
     public void testTreeDisplayError() {
-        getTreeDisplay(loopNode);
+        Arrays.fill(branches, false);
+        getTreeDisplay(loopNode, branches);
+        printBranches(branches);
     }
     @Test
     public void testTreeDisplay0LevelsDeep() {
-        assertThat(getTreeDisplay(null)).isEqualTo("    \n");
+        Arrays.fill(branches, false);
+        assertThat(getTreeDisplay(null, branches)).isEqualTo("    \n");
+        printBranches(branches);
     }
     @Test
     public void testTreeDisplay2LevelsDeep() {
-        assertThat(getTreeDisplay(nodeRoot)).isEqualTo(
+        Arrays.fill(branches, false);
+        assertThat(getTreeDisplay(nodeRoot, branches)).isEqualTo(
                 "                        Root node                       \n"
                 + "              #############################             \n"
                 + "   Node Second Level Left      Node Second Level Right  \n");
+        printBranches(branches);
     }
     @Test
     public void testTreeDisplay1LevelDeep() {
-        assertThat(getTreeDisplay(nodeSecondLevelLeft)).isEqualTo("  Node Second Level Left  \n");
+        Arrays.fill(branches, false);
+        assertThat(getTreeDisplay(nodeSecondLevelLeft, branches)).isEqualTo("  Node Second Level Left  \n");
+        printBranches(branches);
+    }
+
+    private void printBranches(boolean[] branches) {
+        for (int i = 0; i < branches.length; i++) {
+            if (branches[i]) {
+                System.out.printf("Branch %d was taken\n", i);
+            } else {
+                System.out.printf("Branch %d was not taken\n", i);
+            }
+        }
     }
 }
