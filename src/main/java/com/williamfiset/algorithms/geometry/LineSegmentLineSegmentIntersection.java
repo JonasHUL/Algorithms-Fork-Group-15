@@ -38,17 +38,17 @@ public class LineSegmentLineSegmentIntersection {
 
   // Finds the intersection point(s) of two line segments. Unlike regular line
   // segments, segments which are points (x1 = x2 and y1 = y2) are allowed.
-  public static Pt[] lineSegmentLineSegmentIntersection(Pt p1, Pt p2, Pt p3, Pt p4) {
+  public static Pt[] lineSegmentLineSegmentIntersection(Pt p1, Pt p2, Pt p3, Pt p4, boolean[] branches) {
 
     // No intersection.
     if (!segmentsIntersect(p1, p2, p3, p4)) {
-      System.out.println("lineSegmentLineSegmentIntersection: branch 0");
+      branches[0] = true;
       return new Pt[] {};
     };
 
     // Both segments are a single point.
     if (p1.equals(p2) && p2.equals(p3) && p3.equals(p4)) {
-      System.out.println("lineSegmentLineSegmentIntersection: branch 1");
+      branches[1] = true;
       return new Pt[] {p1};
     };
 
@@ -60,26 +60,26 @@ public class LineSegmentLineSegmentIntersection {
     // because the solution might be a sub segment.
     boolean singleton = p1.equals(p2) || p3.equals(p4);
     if (n == 1 && singleton) {
-      System.out.println("lineSegmentLineSegmentIntersection: branch 2");
+      branches[2] = true;
       return new Pt[] {endpoints.get(0)};
     }
 
     // Segments are equal.
     if (n == 2) {
-      System.out.println("lineSegmentLineSegmentIntersection: branch 3");
+      branches[3] = true;
       return new Pt[] {endpoints.get(0), endpoints.get(1)};
     }
 
     boolean collinearSegments = (orientation(p1, p2, p3) == 0) && (orientation(p1, p2, p4) == 0);
     if (collinearSegments) {
-      System.out.println("lineSegmentLineSegmentIntersection: branch 4");
+      branches[4] = true;
       return collinearSegmentFunction(p1, p2, p3, p4);
     }
     /* Beyond this point there is a unique intersection point. */
 
     // Segment #1 is a vertical line.
     if (abs(p1.x - p2.x) < EPS) {
-      System.out.println("lineSegmentLineSegmentIntersection: branch 5");
+      branches[5] = true;
       double m = (p4.y - p3.y) / (p4.x - p3.x);
       double b = p3.y - m * p3.x;
       return new Pt[] {new Pt(p1.x, m * p1.x + b)};
@@ -87,7 +87,7 @@ public class LineSegmentLineSegmentIntersection {
 
     // Segment #2 is a vertical line.
     if (abs(p3.x - p4.x) < EPS) {
-      System.out.println("lineSegmentLineSegmentIntersection: branch 6");
+      branches[6] = true;
       double m = (p2.y - p1.y) / (p2.x - p1.x);
       double b = p1.y - m * p1.x;
       return new Pt[] {new Pt(p3.x, m * p3.x + b)};
@@ -100,7 +100,7 @@ public class LineSegmentLineSegmentIntersection {
     double x = (b2 - b1) / (m1 - m2);
     double y = (m1 * b2 - m2 * b1) / (m1 - m2);
 
-    System.out.println("lineSegmentLineSegmentIntersection: main_branch 7");
+    branches[7] = true;
     return new Pt[] {new Pt(x, y)};
   }
 
@@ -212,15 +212,20 @@ public class LineSegmentLineSegmentIntersection {
   }
 
   public static void main(String[] args) {
-
+    boolean[] branches = new boolean[7];
+    //set all branches to false
+    for (int i = 0; i < branches.length; i++) {
+      branches[i] = false;
+    }
     // Segment #1 is (p1, p2), segment #2 is (p3, p4)
+
     Pt p1, p2, p3, p4;
 
     p1 = new Pt(-2, 4);
     p2 = new Pt(3, 3);
     p3 = new Pt(0, 0);
     p4 = new Pt(2, 4);
-    Pt[] points = lineSegmentLineSegmentIntersection(p1, p2, p3, p4);
+    Pt[] points = lineSegmentLineSegmentIntersection(p1, p2, p3, p4, branches);
     Pt point = points[0];
 
     // Prints: (1.636, 3.273)
@@ -230,10 +235,11 @@ public class LineSegmentLineSegmentIntersection {
     p2 = new Pt(+10, 0);
     p3 = new Pt(-5, 0);
     p4 = new Pt(+5, 0);
-    points = lineSegmentLineSegmentIntersection(p1, p2, p3, p4);
+    points = lineSegmentLineSegmentIntersection(p1, p2, p3, p4, branches);
     Pt point1 = points[0], point2 = points[1];
 
     // Prints: (-5.000, 0.000) (5.000, 0.000)
     System.out.printf("(%.3f, %.3f) (%.3f, %.3f)\n", point1.x, point1.y, point2.x, point2.y);
   }
 }
+
