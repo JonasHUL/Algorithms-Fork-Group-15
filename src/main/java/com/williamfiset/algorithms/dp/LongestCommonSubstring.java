@@ -14,12 +14,12 @@ public class LongestCommonSubstring {
   // between the strings str1 and str2 in O(nm)
   public static String lcs(char[] A, char[] B) {
 
-    if (A == null || B == null) return null;
-
     final int n = A.length;
     final int m = B.length;
 
-    if (n == 0 || m == 0) return null;
+    if(emptyString(A, B, n, m)) {
+      return null;
+    }
 
     int[][] dp = new int[n + 1][m + 1];
 
@@ -62,7 +62,23 @@ public class LongestCommonSubstring {
     return new String(lcs, 0, lcsLen);
   }
 
+  private static boolean emptyString(char[] A, char[] B, int n, int m) {
+    if (A == null || B == null) {
+      return true;
+    } else if (n == 0 || m == 0)  {
+      return true;
+    }
+    return false;
+  }
+
   public static void main(String[] args) {
+    char[] testA = {};
+    char[] testB = {};
+    System.out.println(lcs(testA, testB)); // null
+
+    char[] testC = {};
+    char[] testD = {};
+    System.out.println(lcs(testC, testD)); // null
 
     char[] A = {'A', 'X', 'B', 'C', 'Y'};
     char[] B = {'Z', 'A', 'Y', 'W', 'B', 'C'};
