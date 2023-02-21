@@ -42,14 +42,8 @@ public class ChineseRemainderTheorem {
     return new long[] {a, m};
   }
 
-  // reduce() takes a set of equations and reduces them to an equivalent
-  // set with pairwise co-prime moduli (or null if not solvable).
-  public static long[][] reduce(long[] a, long[] m) {
-
-    List<Long> aNew = new ArrayList<Long>();
-    List<Long> mNew = new ArrayList<Long>();
-
-    // Split up each equation into prime factors
+  // Split up each equation into prime factors
+  public static void split(long[] a, long[] m, List<Long> aNew, List<Long> mNew){
     for (int i = 0; i < a.length; i++) {
       List<Long> factors = primeFactorization(m[i]);
       Collections.sort(factors);
@@ -70,8 +64,9 @@ public class ChineseRemainderTheorem {
         mNew.add(total);
       }
     }
+  }
 
-    // Throw away repeated information and look for conflicts
+  public static boolean simplify(List<Long> aNew, List<Long> mNew){
     for (int i = 0; i < aNew.size(); i++) {
       for (int j = i + 1; j < aNew.size(); j++) {
         if (mNew.get(i) % mNew.get(j) == 0 || mNew.get(j) % mNew.get(i) == 0) {
@@ -81,19 +76,34 @@ public class ChineseRemainderTheorem {
               mNew.remove(j);
               j--;
               continue;
-            } else return null;
+            } else return false;
           } else {
             if ((aNew.get(j) % mNew.get(i)) == aNew.get(i)) {
               aNew.remove(i);
               mNew.remove(i);
               i--;
               break;
-            } else return null;
+            } else return false;
           }
         }
       }
     }
+    return true;
+  }
 
+  // reduce() takes a set of equations and reduces them to an equivalent
+  // set with pairwise co-prime moduli (or null if not solvable).
+  public static long[][] reduce(long[] a, long[] m) {
+
+    List<Long> aNew = new ArrayList<Long>();
+    List<Long> mNew = new ArrayList<Long>();
+
+    // Split up each equation into prime factors
+    split(a,m,aNew,mNew);
+
+    // Throw away repeated information and look for conflicts
+    boolean succeed = simplify(aNew, mNew);
+    if (!succeed) return null;
     // Put result into an array
     long[][] res = new long[2][aNew.size()];
     for (int i = 0; i < aNew.size(); i++) {
