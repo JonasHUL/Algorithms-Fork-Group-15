@@ -202,30 +202,4 @@ public class ChineseRemainderTheorem {
     return true;
   }
 
-  public static void main(String[] args){
-    boolean[] branches = new boolean[9];
-    Arrays.fill(branches, Boolean.FALSE);
-    long[] a1 = {1, 13, 28};
-    long[] m1 = {108, 40, 225};
-    reduce(a1, m1, branches);
-    for (int i = 0; i < branches.length; i++) {
-      if (branches[i]) {
-        System.out.printf("Branch %d was taken\n", i);
-      } else {
-        System.out.printf("Branch %d was not taken\n", i);
-      }
-    }
-
-    Arrays.fill(branches, Boolean.FALSE);
-    long[] a2 = {1, 2, 3};
-    long[] m2 = {2, 4, 6};
-    reduce(a2, m2, branches);
-    for (int i = 0; i < branches.length; i++) {
-      if (branches[i]) {
-        System.out.printf("Branch %d was taken\n", i);
-      } else {
-        System.out.printf("Branch %d was not taken\n", i);
-      }
-    }
-  }
 }
