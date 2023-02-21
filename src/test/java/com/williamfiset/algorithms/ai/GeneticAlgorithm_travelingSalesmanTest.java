@@ -33,8 +33,8 @@ public class GeneticAlgorithm_travelingSalesmanTest {
     public void testGetNormalizedFitness() {
         // Define inputs
         double[][] adjacencyMatrix = {
-                {0, 1, 1},
-                {1, 0, 1},
+                {0, 2, 1},
+                {2, 0, 1},
                 {1, 1, 0}
         };
 
@@ -47,11 +47,11 @@ public class GeneticAlgorithm_travelingSalesmanTest {
         double[] lo = new double[3];
         double[] hi = new double[3];
 
-        double[] expectedFitness = new double[]{0, 1, 1};
+        double[] expectedFitness = new double[]{0, 2, 2};
         double[] expectedLo = new double[]{0, 0.5, 1};
         double[] expectedHi = new double[]{0.5, 1, 0};
 
-        getNormalizedFitness(2, adjacencyMatrix, 3, generation, fitness, lo, hi);
+        getNormalizedFitness(2, 1, adjacencyMatrix, 3, generation, fitness, lo, hi);
 
         assertThat(expectedFitness).isEqualTo(fitness);
         assertThat(expectedLo).isEqualTo(lo);

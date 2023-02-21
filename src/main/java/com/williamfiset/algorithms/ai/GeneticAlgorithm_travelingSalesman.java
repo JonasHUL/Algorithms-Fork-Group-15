@@ -53,7 +53,7 @@ public class GeneticAlgorithm_travelingSalesman {
             branches[1] = true;
 
             // for each individual in current generation, calculate its fitness and normalized fitness
-            getNormalizedFitness(P, adjacencyMatrix, N, generation, fitness, lo, hi);
+            getNormalizedFitness(P, power, adjacencyMatrix, N, generation, fitness, lo, hi);
 
             // Track epoch fittest individual
             Individual bestEpochIndv = null;
@@ -131,7 +131,7 @@ public class GeneticAlgorithm_travelingSalesman {
         }
     }
 
-    public static void getNormalizedFitness(int population, double[][] adjacencyMatrix, int N, Individual[] generation, double[] fitness, double[] lo, double[] hi) {
+    public static void getNormalizedFitness(int population, double power, double[][] adjacencyMatrix, int N, Individual[] generation, double[] fitness, double[] lo, double[] hi) {
         // find the max element in the adjacency matrix
         double max = getMaxElement(adjacencyMatrix);
 
@@ -139,7 +139,7 @@ public class GeneticAlgorithm_travelingSalesman {
         /* 1 CCN */
         for (int i = 1; i <= population; i++) {
             Individual in = generation[i];
-            fitness[i] = fitness(in, adjacencyMatrix, max, N);
+            fitness[i] = fitness(in, adjacencyMatrix, max, N, power);
             fitnessSum += fitness[i];
             lo[i] = hi[i] = 0;
         }
@@ -164,7 +164,7 @@ public class GeneticAlgorithm_travelingSalesman {
     }
 
     // Returns an approximate fitness of a give tour
-    static double fitness(Individual in, double[][] adjacencyMatrix, double max, int n) {
+    static double fitness(Individual in, double[][] adjacencyMatrix, double max, int n, double power) {
 
         // Compute the cost of traveling to all the cities
         double fitness = 0;
