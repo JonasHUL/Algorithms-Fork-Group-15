@@ -16,17 +16,10 @@ public class LongestCommonSubstring {
   // between the strings str1 and str2 in O(nm)
   public static String lcs(char[] A, char[] B, boolean[] branches) {
 
-    branches[0] = true;
-    if (A == null || B == null) {
-      branches[1] = true;
-      return null;
-    }
-
     final int n = A.length;
     final int m = B.length;
 
-    if (n == 0 || m == 0) {
-      branches[2] = true;
+    if(emptyString(A, B, n, m)) {
       return null;
     }
 
@@ -89,7 +82,17 @@ public class LongestCommonSubstring {
     return new String(lcs, 0, lcsLen);
   }
 
+  private static boolean emptyString(char[] A, char[] B, int n, int m) {
+    if (A == null || B == null) {
+      return true;
+    } else if (n == 0 || m == 0)  {
+      return true;
+    }
+    return false;
+  }
+
   public static void main(String[] args) {
+
     boolean[] branches = new boolean[12];
     Arrays.fill(branches, Boolean.FALSE);
 
