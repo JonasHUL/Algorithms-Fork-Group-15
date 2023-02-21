@@ -44,7 +44,7 @@ public class ChineseRemainderTheorem {
 
   // reduce() takes a set of equations and reduces them to an equivalent
   // set with pairwise co-prime moduli (or null if not solvable).
-  public static long[][] reduce(long[] a, long[] m) {
+  public static long[][] reduce(long[] a, long[] m, boolean[] branches) {
 
     List<Long> aNew = new ArrayList<Long>();
     List<Long> mNew = new ArrayList<Long>();
@@ -60,8 +60,10 @@ public class ChineseRemainderTheorem {
         while (iterator.hasNext()) {
           long nextVal = iterator.next();
           if (nextVal == val) {
+            branches[0] = true;
             total *= val;
           } else {
+            branches[1] = true;
             iterator.previous();
             break;
           }
@@ -75,20 +77,31 @@ public class ChineseRemainderTheorem {
     for (int i = 0; i < aNew.size(); i++) {
       for (int j = i + 1; j < aNew.size(); j++) {
         if (mNew.get(i) % mNew.get(j) == 0 || mNew.get(j) % mNew.get(i) == 0) {
+          branches[2] = true;
           if (mNew.get(i) > mNew.get(j)) {
+            branches[3] = true;
             if ((aNew.get(i) % mNew.get(j)) == aNew.get(j)) {
+              branches[4] = true;
               aNew.remove(j);
               mNew.remove(j);
               j--;
               continue;
-            } else return null;
+            } else {
+              branches[5] = true;
+              return null;
+            }
           } else {
+            branches[6] = true;
             if ((aNew.get(j) % mNew.get(i)) == aNew.get(i)) {
+              branches[7] = true;
               aNew.remove(i);
               mNew.remove(i);
               i--;
               break;
-            } else return null;
+            } else{
+              branches[8] = true;
+              return null;
+            }
           }
         }
       }
@@ -187,5 +200,32 @@ public class ChineseRemainderTheorem {
     for (int i = 5; i <= limit; i += 6) if (n % i == 0 || n % (i + 2) == 0) return false;
 
     return true;
+  }
+
+  public static void main(String[] args){
+    boolean[] branches = new boolean[9];
+    Arrays.fill(branches, Boolean.FALSE);
+    long[] a1 = {1, 13, 28};
+    long[] m1 = {108, 40, 225};
+    reduce(a1, m1, branches);
+    for (int i = 0; i < branches.length; i++) {
+      if (branches[i]) {
+        System.out.printf("Branch %d was taken\n", i);
+      } else {
+        System.out.printf("Branch %d was not taken\n", i);
+      }
+    }
+
+    Arrays.fill(branches, Boolean.FALSE);
+    long[] a2 = {1, 2, 3};
+    long[] m2 = {2, 4, 6};
+    reduce(a2, m2, branches);
+    for (int i = 0; i < branches.length; i++) {
+      if (branches[i]) {
+        System.out.printf("Branch %d was taken\n", i);
+      } else {
+        System.out.printf("Branch %d was not taken\n", i);
+      }
+    }
   }
 }
