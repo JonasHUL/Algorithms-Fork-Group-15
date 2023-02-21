@@ -9,6 +9,8 @@ package com.williamfiset.algorithms.datastructures.balancedtree;
 import com.williamfiset.algorithms.datastructures.utils.TreePrinter;
 import com.williamfiset.algorithms.datastructures.utils.TreePrinter.PrintableNode;
 
+import java.util.Arrays;
+
 public class AVLTreeRecursive<T extends Comparable<T>> implements Iterable<T> {
 
   public class Node implements PrintableNode {
@@ -344,7 +346,9 @@ public class AVLTreeRecursive<T extends Comparable<T>> implements Iterable<T> {
 
   @Override
   public String toString() {
-    return TreePrinter.getTreeDisplay(root);
+    boolean[] branches = new boolean[9];
+    Arrays.fill(branches, false);
+    return TreePrinter.getTreeDisplay(root, branches);
   }
 
   // Make sure all left child nodes are smaller in value than their parent and
